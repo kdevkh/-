@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Card Generator</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="input-group mb-3">
+                <input type="text" id="youtubeLink" class="form-control" placeholder="Paste YouTube Link">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" onclick="generateCard()">Complete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="cardContainer">
+        <!-- Cards will be added here dynamically -->
+    </div>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function generateCard() {
+        // Get the YouTube link from the input
+        var youtubeLink = document.getElementById('youtubeLink').value;
+
+        // Check if the link is not empty
+        if (youtubeLink.trim() !== '') {
+            // Create a new card element
+            var cardContainer = document.getElementById('cardContainer');
+            var card = document.createElement('div');
+            card.className = 'col-md-4 mt-3';
+
+            // Embed the YouTube video using an iframe
+            card.innerHTML = `
+                <div class="card">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="${getYoutubeEmbedLink(youtubeLink)}" allowfullscreen></iframe>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">YouTube Video</p>
+                    </div>
+                </div>
+            `;
+
+            // Append the card to the card container
+            cardContainer.appendChild(card);
+
+            // Clear the input field
+            document.getElementById('youtubeLink').value = '';
+        } else {
+            alert('Please paste a valid YouTube link.');
+        }
+    }
+
+    // Function to convert YouTube link to embeddable format
+    function getYoutubeEmbedLink(link) {
+        // Extract the video ID from the link
+        var videoId = link.split('v=')[1];
+
+        // Construct the embeddable link
+        return `https://www.youtube.com/embed/${videoId}`;
+    }
+</script>
+
+</body>
+</html>
